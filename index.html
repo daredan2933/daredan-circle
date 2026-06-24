@@ -254,6 +254,9 @@ window.addEventListener('load', function() {
   setInterval(spawnBubble, 900);
   setTimeout(spawnBubble, 1500);
 
+  // スケジュール読み込み
+  loadSchedule();
+
   // ② スクロールアニメーション
   var sections = document.querySelectorAll('.section');
   var observer = new IntersectionObserver(function(entries) {
