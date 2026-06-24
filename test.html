@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>テスト</title>
+</head>
+<body>
+<h1>テスト</h1>
+<input type="password" id="pw" placeholder="パスワード" /><br><br>
+<button id="btn">ログイン</button>
+<p id="msg"></p>
+<script>
+document.getElementById('btn').addEventListener('click', function() {
+  var pw = document.getElementById('pw').value;
+  if (pw === 'daredan2933') {
+    document.getElementById('msg').textContent = 'ログイン成功！';
+  } else {
+    document.getElementById('msg').textContent = 'パスワードが違います';
+  }
+});
+</script>
+</body>
+</html>
