@@ -97,13 +97,7 @@ footer { background: #222; color: #aaa; text-align: center; padding: 24px 16px; 
   <div class="sec-eyebrow">SCHEDULE</div>
   <div class="sec-title">レッスンスケジュール</div>
   <div class="sec-sub">毎月更新中📅</div>
-  <div class="sched-img-wrap">
-    <img id="schedule-img" src="" style="display:none;" alt="スケジュール" />
-    <div id="schedule-placeholder" class="sched-placeholder">
-      <div class="icon">🗓️</div>
-      <p>今月のスケジュールを<br>準備中です。<br>もうしばらくお待ちください！</p>
-    </div>
-  </div>
+  <div id="schedule-wrap"></div>
 </div>
 
 <div class="section" id="s2">
@@ -280,6 +274,42 @@ window.addEventListener('load', function() {
     document.getElementById('schedule-placeholder').style.display = 'none';
   }
 });
+
+function loadSchedule() {
+  var wrap = document.getElementById('schedule-wrap');
+  wrap.innerHTML = '<div style="text-align:center;padding:30px;color:#ccc;font-size:13px;">📅 スケジュールを読み込み中...</div>';
+  fetch('https://raw.githubusercontent.com/daredan2933/daredan-circle/main/schedule.json?t=' + Date.now())
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      var lessons = data.lessons || [];
+      if (lessons.length === 0) {
+        wrap.innerHTML = '<div style="text-align:center;padding:30px;color:#ccc;font-size:13px;">🗓️ 今月のスケジュールを準備中です。<br>もうしばらくお待ちください！</div>';
+        return;
+      }
+      var weekdays = ['日','月','火','水','木','金','土'];
+      var html = '<div style="display:flex;flex-direction:column;gap:8px;">';
+      var colors = ['#fff3ef','#fffbea','#edfaf5','#eef5ff','#f5f0ff','#fff0f8'];
+      var textColors = ['#e05a30','#c08000','#0e9e6a','#2666d4','#6f42c1','#e05a9a'];
+      lessons.forEach(function(l, i) {
+        var d = new Date(l.date + 'T00:00:00');
+        var w = weekdays[d.getDay()];
+        var parts = l.date.split('-');
+        var label = parseInt(parts[1]) + '月' + parseInt(parts[2]) + '日（' + w + '）';
+        var c = colors[i % colors.length];
+        var tc = textColors[i % textColors.length];
+        html += '<div style="display:grid;grid-template-columns:120px 1fr auto;align-items:center;gap:10px;padding:12px 14px;border-radius:10px;background:' + c + ';">';
+        html += '<div style="font-size:13px;font-weight:bold;color:' + tc + ';">' + label + '</div>';
+        html += '<div style="font-size:13px;font-weight:bold;color:#222;">📍 ' + l.place + '</div>';
+        html += '<div style="font-size:12px;color:#888;">' + l.time + '</div>';
+        html += '</div>';
+      });
+      html += '</div>';
+      wrap.innerHTML = html;
+    })
+    .catch(function() {
+      wrap.innerHTML = '<div style="text-align:center;padding:30px;color:#ccc;font-size:13px;">🗓️ 今月のスケジュールを準備中です。<br>もうしばらくお待ちください！</div>';
+    });
+}
 </script>
 </body>
 </html>
