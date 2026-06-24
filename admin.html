@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DareDan Circle管理者ページ</title>
+<title>DareDan Circle管理者ページ v3</title>
 <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -331,7 +331,13 @@ function renderLessons() {
   var list = document.getElementById('lesson-list');
   document.getElementById('count').textContent = '(' + lessons.length + '件)';
   if (lessons.length === 0) {
-    list.innerHTML = '<div style="font-size:13px;color:#ccc;text-align:center;padding:20px;">まだ登録されていません</div>';
+    var emptyDiv = document.createElement('div');
+    emptyDiv.style.fontSize = '13px';
+    emptyDiv.style.color = '#ccc';
+    emptyDiv.style.textAlign = 'center';
+    emptyDiv.style.padding = '20px';
+    emptyDiv.textContent = 'まだ登録されていません';
+    list.appendChild(emptyDiv);
     return;
   }
   var days = ['日','月','火','水','木','金','土'];
